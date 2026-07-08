@@ -1,0 +1,27 @@
+.shipping-bar-app-wrapper {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.shipping-bar-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+.shipping-bar-text {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: inherit;
+}
+.shipping-progress-container {
+    height: 12px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.shipping-progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.8s ease-in-out;
+}
