@@ -1,0 +1,43 @@
+{{ 'shipping-bar.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'shipping-bar.js' | asset_url }}" defer="defer"></script>
+
+{%- assign threshold = block.settings.threshold | times: 100 -%}
+{%- assign cart_total = cart.total_price -%}
+
+<div class="shipping-bar-app-wrapper" 
+     id="ShippingBar-{{ block.id }}" 
+     data-threshold="{{ threshold }}"
+     style="background-color: {{ block.settings.bg_color }};">
+    
+    <div class="shipping-bar-inner">
+        <p id="ShippingBarMessage" class="shipping-bar-text" style="color: {{ block.settings.text_color }};">
+            {%- if cart_total >= threshold -%}
+                {{ block.settings.success_msg }}
+            {%- else -%}
+                {%- assign remaining = threshold | minus: cart_total -%}
+                You're only {{ remaining | money }} away from Free Shipping!
+            {%- endif -%}
+        </p>
+        
+        <div class="shipping-progress-container" style="background-color: {{ block.settings.progress_bg }};">
+            <div id="ShippingBarFill" class="shipping-progress-fill" 
+                 style="width: {{ cart_total | times: 100 | divided_by: threshold | at_most: 100 }}%; background-color: {{ block.settings.fill_color }};">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Free Shipping Bar",
+  "target": "section",
+  "settings": [
+    { "type": "number", "id": "threshold", "label": "Threshold Amount (e.g. 100)", "default": 100 },
+    { "type": "text", "id": "success_msg", "label": "Success Message", "default": "You've unlocked free shipping! 🎉" },
+    { "type": "color", "id": "bg_color", "label": "Container Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#000000" },
+    { "type": "color", "id": "progress_bg", "label": "Progress Bar Background", "default": "#e0e0e0" },
+    { "type": "color", "id": "fill_color", "label": "Progress Fill Color", "default": "#333333" }
+  ]
+}
+{% endschema %}
